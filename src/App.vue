@@ -1,26 +1,26 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <post-table :posts=posts />
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue';
+import PostTable from './components/PostTable.vue';
 
 export default {
+  components: { PostTable },
   name: 'App',
-  components: {
-    HelloWorld,
+  data() {
+    return {
+      posts: [],
+    };
+  },
+  mounted() {
+    this.axios
+      .get('https://jsonplaceholder.typicode.com/posts')
+      .then((response) => {
+        this.posts = response.data;
+      });
   },
 };
 </script>
 
-<style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>
+<style lang='scss'></style>
