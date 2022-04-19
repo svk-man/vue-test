@@ -1,24 +1,63 @@
 <template>
-  <post-table :posts=posts />
+  <data-table :items=postsItems :titles=postsTitles />
 </template>
 
 <script>
-import PostTable from './components/PostTable.vue';
+import * as Api from './api/axios';
+import DataTable from './components/DataTable.vue';
 
 export default {
-  components: { PostTable },
+  components: { DataTable },
   name: 'App',
   data() {
     return {
-      posts: [],
+      postsTitles: [],
+      postsItems: [],
+      photosTitles: [],
+      photosItems: [],
+      usersTitles: [],
+      usersItems: [],
     };
   },
+  methods: {
+    getPosts() {
+      Api.getPosts()
+        .then((posts) => {
+          this.postsTitles = ['userId', 'id', 'title', 'body'];
+          this.postsItems = posts;
+        });
+    },
+    getUsers() {
+      Api.getUsers()
+        .then((users) => {
+          this.usersTitles = ['id', 'name', 'username', 'email', 'city'];
+          this.usersItems = users.map((user) => (
+            {
+              id: user.id,
+              name: user.name,
+              username: user.username,
+              email: user.email,
+              city: user.address.city,
+            }));
+        });
+    },
+    getPhotos() {
+      Api.getPhotos()
+        .then((photos) => {
+          this.photosTitles = ['id', 'title', 'url'];
+          this.photosItems = photos.map((photo) => (
+            {
+              id: photo.id,
+              title: photo.title,
+              url: photo.url,
+            }));
+        });
+    },
+  },
   mounted() {
-    this.axios
-      .get('https://jsonplaceholder.typicode.com/posts')
-      .then((response) => {
-        this.posts = response.data;
-      });
+    this.getPosts();
+    this.getUsers();
+    this.getPhotos();
   },
 };
 </script>
