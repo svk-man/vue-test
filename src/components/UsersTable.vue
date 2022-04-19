@@ -6,6 +6,10 @@
     <label for="name">
       <input v-model="nameFilter" type="text" placeholder="name" name="name" />
     </label>
+    <select v-model="cityFilter">
+      <option value="">Cities</option>
+      <option v-for="(city, index) in uniqueCities" :key="index">{{ city }}</option>
+    </select>
   </div>
   <table>
     <thead>
@@ -38,6 +42,7 @@ export default {
     return {
       idFilter: '',
       nameFilter: '',
+      cityFilter: '',
     };
   },
   computed: {
@@ -52,7 +57,17 @@ export default {
           const isFilterPossible = this.nameFilter.trim() !== '';
           const isNameExist = user.name.toLowerCase().indexOf(this.nameFilter.toLowerCase()) !== -1;
           return isFilterPossible ? isNameExist : true;
+        })
+        .filter((user) => {
+          const isFilterPossible = this.cityFilter !== '';
+          const isCityExist = user.address.city === this.cityFilter;
+          return isFilterPossible ? isCityExist : true;
         });
+    },
+    uniqueCities() {
+      const cities = new Set();
+      this.users.forEach((user) => cities.add(user.address.city));
+      return Array.from(cities);
     },
   },
   props: {
