@@ -2,7 +2,7 @@ import axios from 'axios';
 
 const CATEGORIES = {
   POSTS: 'posts',
-  PHOTOS: 'photos',
+  TODOS: 'todos',
   USERS: 'users',
 };
 
@@ -23,8 +23,8 @@ export function getUsers() {
     .then((response) => response.data);
 }
 
-export function getPhotos() {
+export function getTodos() {
   return axios
-    .get(getUrl(CATEGORIES.PHOTOS))
+    .get(getUrl(CATEGORIES.TODOS))
     .then((response) => response.data);
 }

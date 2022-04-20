@@ -2,7 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router';
 import HomeView from '../views/HomeView.vue';
 import UsersView from '../views/UsersView.vue';
 import PostsView from '../views/PostsView.vue';
-import PhotosView from '../views/PhotosView.vue';
+import TodosView from '../views/TodosView.vue';
 
 const routes = [
   {
@@ -21,9 +21,9 @@ const routes = [
     component: PostsView,
   },
   {
-    path: '/photos',
-    name: 'photos',
-    component: PhotosView,
+    path: '/todos',
+    name: 'todos',
+    component: TodosView,
   },
 ];
 
