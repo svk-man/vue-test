@@ -1,31 +1,32 @@
 <template>
-  <users-table :users=users />
+  <nav>
+    <router-link to="/">Home</router-link> |
+    <router-link to="/users">Users</router-link> |
+    <router-link to="/posts">Posts</router-link> |
+    <router-link to="/photos">Photos</router-link>
+  </nav>
+  <router-view/>
 </template>
 
-<script>
-import * as Api from './api/axios';
-import UsersTable from './components/UsersTable.vue';
+<style lang="scss">
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+}
 
-export default {
-  components: { UsersTable },
-  name: 'App',
-  data() {
-    return {
-      users: [],
-    };
-  },
-  methods: {
-    getUsers() {
-      Api.getUsers()
-        .then((users) => {
-          this.users = users;
-        });
-    },
-  },
-  mounted() {
-    this.getUsers();
-  },
-};
-</script>
+nav {
+  padding: 30px;
 
-<style lang='scss'></style>
+  a {
+    font-weight: bold;
+    color: #2c3e50;
+
+    &.router-link-exact-active {
+      color: #42b983;
+    }
+  }
+}
+</style>
