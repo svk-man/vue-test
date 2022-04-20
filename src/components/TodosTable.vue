@@ -52,7 +52,7 @@
         </tr>
       </tbody>
     </table>
-    <div class="table__pagination pagination">
+    <div class="table__pagination pagination" v-if="pages >= 2">
       <div class="pagination__item"
         v-for="(page, index) in pages" :key="index"
         :class="{'pagination__item--active': page === currentPage}"
