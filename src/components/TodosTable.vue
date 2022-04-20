@@ -131,105 +131,16 @@ export default {
 </script>
 
 <style scoped lang='scss'>
-* {
-  box-sizing: border-box;
-}
+  @import "../assets/scss/table.scss";
+  $table-columns: 3;
 
-.table {
-  max-width: 900px;
-  margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-  row-gap: 10px;
-  font-size: 12px;
-}
+  .table-filter {
+    grid-template-columns: repeat($table-columns, calc(900px / $table-columns));
+  }
 
-.table-filter {
-  display: grid;
-  grid-template-columns: repeat(3, calc(900px / 3));
-}
-
-.label-item {
-  display: flex;
-  column-gap: 5px;
-
-  &__input {
-    width: 70%;
-    padding: 5px;
-    border: 1px solid gray;
-    border-radius: 0;
-    outline: none;
-    transition: .3s;
-
-    &:hover {
-      border-color: blueviolet;
+  .content-table {
+    &__row {
+      grid-template-columns: repeat($table-columns, calc(900px / $table-columns));
     }
   }
-  &__sort-button {
-    font-size: 16px;
-    width: 30px;
-    line-height: 30px;
-    border: 1px solid white;
-    transition: .3s;
-
-    &:hover {
-      cursor: pointer;
-      border-color: blueviolet;
-    }
-  }
-}
-
-.select-item {
-  padding: 5px;
-  border: 1px solid gray;
-  border-radius: 0;
-  outline: none;
-  transition: .3s;
-
-  &:hover {
-    border-color: blueviolet;
-  }
-}
-
-.content-table {
-  &__row {
-    display: grid;
-    grid-template-columns: repeat(3, calc(900px / 3));
-    padding: 5px 0;
-    border-bottom: 1px solid gray;
-    text-align: left;
-    overflow-wrap: break-word;
-  }
-
-  &__d-cell {
-    padding: 5px;
-  }
-}
-
-.pagination {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
-  gap: 10px;
-
-  &__item {
-    width: 30px;
-    height: 30px;
-    border: 1px solid darkgray;
-    border-radius: 50%;
-    line-height: 30px;
-    text-align: center;
-    transition: .3s;
-
-    &:hover {
-      cursor: pointer;
-      border-color: blueviolet;
-    }
-
-    &--active {
-      border-color: blueviolet;
-    }
-  }
-}
 </style>
