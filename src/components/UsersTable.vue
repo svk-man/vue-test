@@ -2,10 +2,11 @@
   <div>
     <label for="id">
       <input v-model.number="idFilter" type="text" placeholder="id" name="id" />
-      <span @click="idSortAsc = !idSortAsc" @keydown="sortById">⬍</span>
+      <span @click="setSortById" @keydown="setSortById">⬍</span>
     </label>
     <label for="name">
       <input v-model="nameFilter" type="text" placeholder="name" name="name" />
+      <span @click="setSortByName" @keydown="setSortByName">⬍</span>
     </label>
     <select v-model="cityFilter">
       <option value="">Cities</option>
@@ -54,12 +55,22 @@ export default {
       cityFilter: '',
       pagesPerPage: 2,
       currentPage: 1,
+      sort: 'id',
       idSortAsc: true,
+      nameSortAsc: false,
     };
   },
   computed: {
     preparedUsers() {
-      this.sortById();
+      switch (this.sort) {
+        case 'name':
+          this.sortByName();
+          break;
+        default:
+          this.sortById();
+          break;
+      }
+
       return this.getUsersOnCurrentPage();
     },
     filteredUsers() {
@@ -100,8 +111,28 @@ export default {
       this.currentPage = page;
     },
     sortById() {
-      const compareIds = (a, b) => (this.idSortAsc ? a.id - b.id : b.id - a.id);
+      const compareIds = (a, b) => (this.idSortAsc
+        ? a.id - b.id
+        : b.id - a.id);
+
+      this.nameSortAsc = false;
       this.filteredUsers.sort(compareIds);
+    },
+    sortByName() {
+      const compareName = (a, b) => (this.nameSortAsc
+        ? a.name.localeCompare(b.name)
+        : b.name.localeCompare(a.name));
+
+      this.idSortAsc = false;
+      this.filteredUsers.sort(compareName);
+    },
+    setSortById() {
+      this.idSortAsc = !this.idSortAsc;
+      this.sort = 'id';
+    },
+    setSortByName() {
+      this.nameSortAsc = !this.nameSortAsc;
+      this.sort = 'name';
     },
   },
   props: {
