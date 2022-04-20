@@ -1,14 +1,10 @@
-<template>
-  <div class="faq">
-    <ul class="faq__items">
-      <li class="faq__item" v-for="user in users" :key="user.id">
-        <button class="faq__item-button" @click="user.showed = !user.showed">{{ user.id }}</button>
-        <transition name="fade">
-          <div class="faq__item-text" v-show=user.showed >{{ userText(user) }}</div>
-        </transition>
-      </li>
-    </ul>
-  </div>
+<template lang="pug">
+.faq
+  ul.faq__items
+    li.faq__item(v-for="user in users", :key="user.id")
+      button.faq__item-button(@click="user.showed = !user.showed") {{ user.id }}
+      transition(name="fade")
+        .faq__item-text(v-show="user.showed") {{ userText(user) }}
 </template>
 
 <script>
