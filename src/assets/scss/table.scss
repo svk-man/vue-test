@@ -60,6 +60,16 @@ $table-columns: 6;
   }
 }
 
+.radio-item {
+  display: flex;
+  justify-content: center;
+  column-gap: 10px;
+  &__label,
+  &__radio {
+    cursor: pointer;
+  }
+}
+
 .content-table {
   &__row {
     display: grid;

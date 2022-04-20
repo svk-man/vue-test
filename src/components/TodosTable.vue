@@ -13,6 +13,23 @@
         <span class="label-item__sort-button"
           @click="setSortByTitle" @keydown="setSortByTitle">⬍</span>
       </label>
+      <div class="table-filter__item table-filter__radio-item radio-item">
+        <label class="radio-item__label" for="completed-all">
+          <input class="radio-item__radio" type="radio" id="completed-all"
+          value="" v-model="completedFilter" />
+          all
+        </label>
+        <label class="radio-item__label" for="completed-true">
+          <input class="radio-item__radio" type="radio" id="completed-true"
+          value="true" v-model="completedFilter" />
+          true
+        </label>
+        <label class="radio-item__label" for="completed-false">
+          <input class="radio-item__radio" type="radio" id="completed-false"
+          value="false" v-model="completedFilter" />
+          false
+        </label>
+      </div>
     </div>
     <table class="table__content content-table">
       <thead class="content-table__thead">
@@ -48,6 +65,7 @@ export default {
     return {
       idFilter: '',
       titleFilter: '',
+      completedFilter: '',
       pagesPerPage: 10,
       currentPage: 1,
       sort: 'id',
@@ -80,6 +98,10 @@ export default {
           const isTitleExist = todo.title.toLowerCase()
             .indexOf(this.titleFilter.toLowerCase()) !== -1;
           return isFilterPossible ? isTitleExist : true;
+        })
+        .filter((todo) => {
+          const isFilterPossible = this.completedFilter !== '';
+          return isFilterPossible ? String(todo.completed) === String(this.completedFilter) : true;
         });
     },
     pages() {
