@@ -1,29 +1,35 @@
 <template>
-  <users-table :users=users />
+  <posts-table :posts=posts />
 </template>
 
 <script>
 import * as Api from '../api/axios';
-import UsersTable from '../components/UsersTable.vue';
+import PostsTable from '../components/PostsTable.vue';
 
 export default {
-  components: { UsersTable },
+  components: { PostsTable },
   name: 'PostsView',
   data() {
     return {
-      users: [],
+      posts: [],
     };
   },
   methods: {
-    getUsers() {
-      Api.getUsers()
-        .then((users) => {
-          this.users = users;
+    getPosts() {
+      Api.getPosts()
+        .then((posts) => {
+          this.posts = posts.map((post) => (
+            {
+              id: post.id,
+              title: post.title,
+              body: post.body,
+            }
+          ));
         });
     },
   },
   mounted() {
-    this.getUsers();
+    this.getPosts();
   },
 };
 </script>
