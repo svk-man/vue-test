@@ -2,6 +2,7 @@
   <div>
     <label for="id">
       <input v-model.number="idFilter" type="text" placeholder="id" name="id" />
+      <span @click="idSortAsc = !idSortAsc" @keydown="sortById">⬍</span>
     </label>
     <label for="name">
       <input v-model="nameFilter" type="text" placeholder="name" name="name" />
@@ -53,10 +54,12 @@ export default {
       cityFilter: '',
       pagesPerPage: 2,
       currentPage: 1,
+      idSortAsc: true,
     };
   },
   computed: {
     preparedUsers() {
+      this.sortById();
       return this.getUsersOnCurrentPage();
     },
     filteredUsers() {
@@ -95,6 +98,10 @@ export default {
     },
     showPage(page) {
       this.currentPage = page;
+    },
+    sortById() {
+      const compareIds = (a, b) => (this.idSortAsc ? a.id - b.id : b.id - a.id);
+      this.filteredUsers.sort(compareIds);
     },
   },
   props: {
