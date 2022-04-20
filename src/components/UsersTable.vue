@@ -23,7 +23,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr v-for="user in filteredUsers" :key="user.id">
+      <tr v-for="user in preparedUsers" :key="user.id">
         <td>{{  user.id }}</td>
         <td>{{  user.name }}</td>
         <td>{{  user.username }}</td>
@@ -33,6 +33,14 @@
       </tr>
     </tbody>
   </table>
+  <div class="pagination">
+    <div class="pagination__item"
+      v-for="(page, index) in pages" :key="index"
+      :class="{'pagination__item--active': page === currentPage}"
+      @click="showPage(page)"
+      @keydown="showPage(page)"
+      >{{ page }}</div>
+  </div>
 </template>
 
 <script>
@@ -43,9 +51,14 @@ export default {
       idFilter: '',
       nameFilter: '',
       cityFilter: '',
+      pagesPerPage: 2,
+      currentPage: 1,
     };
   },
   computed: {
+    preparedUsers() {
+      return this.getUsersOnCurrentPage();
+    },
     filteredUsers() {
       return this.users
         .filter((user) => {
@@ -69,6 +82,20 @@ export default {
       this.users.forEach((user) => cities.add(user.address.city));
       return Array.from(cities);
     },
+    pages() {
+      return Math.ceil(this.filteredUsers.length / this.pagesPerPage);
+    },
+  },
+  methods: {
+    getUsersOnCurrentPage() {
+      this.currentPage = (this.currentPage > this.pages) ? 1 : this.currentPage;
+      const begin = (this.currentPage - 1) * this.pagesPerPage;
+      const end = this.pagesPerPage * this.currentPage;
+      return this.filteredUsers.slice(begin, end);
+    },
+    showPage(page) {
+      this.currentPage = page;
+    },
   },
   props: {
     users: {
@@ -79,4 +106,31 @@ export default {
 };
 </script>
 
-<style scoped lang='scss'></style>
+<style scoped lang='scss'>
+.pagination {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+
+  &__item {
+    width: 30px;
+    height: 30px;
+    border: 1px solid darkgray;
+    border-radius: 50%;
+    line-height: 30px;
+    text-align: center;
+    transition: .3s;
+
+    &:hover {
+      cursor: pointer;
+    }
+
+    &--active {
+      border-color: blueviolet;
+    }
+  }
+
+}
+</style>
