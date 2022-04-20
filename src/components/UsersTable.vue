@@ -13,6 +13,12 @@
         <span class="label-item__sort-button"
           @click="setSortByName" @keydown="setSortByName">⬍</span>
       </label>
+      <label for="username" class="table-filter__item table-filter__label-item label-item">
+        <input class="label-item__input"
+          v-model="userNameFilter" type="text" placeholder="username" name="username" />
+        <span class="label-item__sort-button"
+          @click="setSortByUserName" @keydown="setSortByUserName">⬍</span>
+      </label>
       <select v-model="cityFilter" class="table-filter__item table-filter__select-item select-item">
         <option class="select-item__option"
           value="">Cities</option>
@@ -60,12 +66,14 @@ export default {
     return {
       idFilter: '',
       nameFilter: '',
+      userNameFilter: '',
       cityFilter: '',
       pagesPerPage: 2,
       currentPage: 1,
       sort: 'id',
       idSortAsc: true,
       nameSortAsc: false,
+      userNameSortAsc: false,
     };
   },
   computed: {
@@ -73,6 +81,9 @@ export default {
       switch (this.sort) {
         case 'name':
           this.sortByName();
+          break;
+        case 'username':
+          this.sortByUserName();
           break;
         default:
           this.sortById();
@@ -92,6 +103,12 @@ export default {
           const isFilterPossible = this.nameFilter.trim() !== '';
           const isNameExist = user.name.toLowerCase().indexOf(this.nameFilter.toLowerCase()) !== -1;
           return isFilterPossible ? isNameExist : true;
+        })
+        .filter((user) => {
+          const isFilterPossible = this.userNameFilter.trim() !== '';
+          const isUserNameExist = user.username.toLowerCase()
+            .indexOf(this.userNameFilter.toLowerCase()) !== -1;
+          return isFilterPossible ? isUserNameExist : true;
         })
         .filter((user) => {
           const isFilterPossible = this.cityFilter !== '';
@@ -124,6 +141,7 @@ export default {
         : b.id - a.id);
 
       this.nameSortAsc = false;
+      this.userNameSortAsc = false;
       this.filteredUsers.sort(compareIds);
     },
     sortByName() {
@@ -132,7 +150,17 @@ export default {
         : b.name.localeCompare(a.name));
 
       this.idSortAsc = false;
+      this.userNameSortAsc = false;
       this.filteredUsers.sort(compareName);
+    },
+    sortByUserName() {
+      const compareUserName = (a, b) => (this.userNameSortAsc
+        ? a.username.localeCompare(b.username)
+        : b.username.localeCompare(a.username));
+
+      this.idSortAsc = false;
+      this.nameSortAsc = false;
+      this.filteredUsers.sort(compareUserName);
     },
     setSortById() {
       this.idSortAsc = !this.idSortAsc;
@@ -141,6 +169,10 @@ export default {
     setSortByName() {
       this.nameSortAsc = !this.nameSortAsc;
       this.sort = 'name';
+    },
+    setSortByUserName() {
+      this.userNameSortAsc = !this.userNameSortAsc;
+      this.sort = 'username';
     },
   },
   props: {
