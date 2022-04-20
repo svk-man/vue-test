@@ -22,11 +22,16 @@
           <th class="content-table__h-cell">body</th>
         </tr>
       </thead>
-      <tbody class="content-table__tbody">
+      <tbody class="content-table__tbody" v-if="preparedPosts.length">
         <tr class="content-table__row" v-for="post in preparedPosts" :key="post.id">
           <td class="content-table__d-cell">{{ post.id }}</td>
           <td class="content-table__d-cell">{{ post.title }}</td>
           <td class="content-table__d-cell">{{ post.body }}</td>
+        </tr>
+      </tbody>
+      <tbody class="content-table__tbody" v-else >
+        <tr class="content-table__row">
+          <td class="content-table__d-cell" colspan="3">Nothing to show</td>
         </tr>
       </tbody>
     </table>

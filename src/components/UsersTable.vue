@@ -37,7 +37,7 @@
           <th class="content-table__h-cell">phone</th>
         </tr>
       </thead>
-      <tbody class="content-table__tbody">
+      <tbody class="content-table__tbody" v-if="preparedUsers.length" >
         <tr class="content-table__row" v-for="user in preparedUsers" :key="user.id">
           <td class="content-table__d-cell">{{ user.id }}</td>
           <td class="content-table__d-cell">{{ user.name }}</td>
@@ -45,6 +45,11 @@
           <td class="content-table__d-cell">{{ user.email }}</td>
           <td class="content-table__d-cell">{{ user.address.city }}</td>
           <td class="content-table__d-cell">{{ user.phone }}</td>
+        </tr>
+      </tbody>
+      <tbody class="content-table__tbody" v-else >
+        <tr class="content-table__row">
+          <td class="content-table__d-cell" colspan="6">Nothing to show</td>
         </tr>
       </tbody>
     </table>

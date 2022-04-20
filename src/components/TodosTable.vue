@@ -39,11 +39,16 @@
           <th class="content-table__h-cell">completed</th>
         </tr>
       </thead>
-      <tbody class="content-table__tbody">
+      <tbody class="content-table__tbody" v-if="preparedTodos.length" >
         <tr class="content-table__row" v-for="todo in preparedTodos" :key="todo.id">
           <td class="content-table__d-cell">{{ todo.id }}</td>
           <td class="content-table__d-cell">{{ todo.title }}</td>
           <td class="content-table__d-cell">{{ todo.completed }}</td>
+        </tr>
+      </tbody>
+      <tbody class="content-table__tbody" v-else >
+        <tr class="content-table__row">
+          <td class="content-table__d-cell" colspan="3">Nothing to show</td>
         </tr>
       </tbody>
     </table>
