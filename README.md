@@ -1,5 +1,8 @@
 # vue-test
 
+## Project deploy
+https://svk-man.github.io/vue-test/dist/
+
 ## Project setup
 ```
 npm install
